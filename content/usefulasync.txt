@@ -1,0 +1,2 @@
+This is Awesome : Hey buddy welcome to the world...! The result is : Hey buddy welcome to the world...!,This is the first file in the subfolder created to purpose. , <h1>
+        This is made from simplified usage and calling of await and sync promise methods</h1>
