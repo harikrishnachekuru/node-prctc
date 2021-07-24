@@ -73,6 +73,10 @@ app.get('/api/v1/query',(req,res)=> {
     if(limit) {
         sortedProducts = sortedProducts.slice(0,Number(limit));
     }
+    if(sortedProducts.length<1){
+        //here we can't direct give the res data if so, it will throw a error as cannot set Headers after the data send to the client.
+        return res.status(200).json({success:true,message:[]});
+    }
     res.status(200).json(sortedProducts);
 })
 

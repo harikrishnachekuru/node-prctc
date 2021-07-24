@@ -67,15 +67,15 @@
 
 
 
-const express = require('express');
-const {products} = require('./data');
+// const express = require('express');
+// const {products} = require('./data');
 
-const app = express();
+// const app = express();
 
-app.get('/',(req,res)=>{
-    //Directly calling the api and adding the resource for it
-    res.send('<h1>Home Page</h1><a href="/api/products">products</a>');
-})
+// app.get('/',(req,res)=>{
+//     //Directly calling the api and adding the resource for it
+//     res.send('<h1>Home Page</h1><a href="/api/products">products</a>');
+// })
 //Now need to get data for the api which we passed 
 // app.get('/api/products',(req,res)=>{
 //     //creating a new intsnce for products and mapping them to the product(<-new instnce)
@@ -100,23 +100,120 @@ app.get('/',(req,res)=>{
 //     res.json(singleProduct);
 // })
 
-app.get('/api/v1/query',(req,res)=> {
-    //console.log(req.query);
-    // for query we are giving some sort of query to get data to applied searched/filtered values of data.
+// app.get('/api/v1/query',(req,res)=> {
+//     //console.log(req.query);
+//     // for query we are giving some sort of query to get data to applied searched/filtered values of data.
     
-    let {search, limit} = req.query;
-    let sortedProducts = [...products];
-    if(search) {
-        sortedProducts= sortedProducts.filter((product)=> {
-            return product.name.startsWith(search);
-        })
-    }
-    if(limit) {
-        sortedProducts = sortedProducts.slice(0,Number(limit));
-    }
-    res.status(200).json(sortedProducts);
+//     let {search, limit} = req.query;
+//     let sortedProducts = [...products];
+//     if(search) {
+//         sortedProducts= sortedProducts.filter((product)=> {
+//             return product.name.startsWith(search);
+//         })
+//     }
+//     if(limit) {
+//         sortedProducts = sortedProducts.slice(0,Number(limit));
+//     }
+//     if(sortedProducts.length<1){
+//         //here we can't direct give the res data if so, it will throw a error as cannot set Headers after the data send to the client.
+//         return res.status(200).json({success:true,message:[]});
+//     }
+//     res.status(200).json(sortedProducts);
+// })
+
+// app.listen(5000,()=> {
+//     console.log('listening on port 5000...');
+// })
+
+// const express = require('express');
+
+// const app = express();
+
+//req -> middleware -> res
+
+//Normal way of approach 
+
+// app.get('/',(req,res,next) => {
+//     const method = req.method;
+//     const url = req.url;
+//     const time = new Date().getTime();
+//     console.log(method,url,time);
+//     next();
+// })
+
+// By using middleware we can get the data as same with specifically -> As by defining and using it for n number of times.
+//Here logger is the middleware.
+// const logger = (req, res, next) =>{
+//     const method = req.method;
+//     const url = req.url;
+//     const time = new Date().getDate();
+//     console.log(method,url,time);
+//     next();
+// }
+
+// app.get('/',logger,(req,res)=> {
+//     res.send("Home Page");
+// })
+// app.get('/about',logger,(req,res)=>{
+//     res.send("About")
+// })
+
+
+// const logger = require('./logger');
+
+// app.use(logger)
+
+// app.get('/',(req, res)=> {
+//     res.send('Welcome to Home Page!');
+// })
+
+// app.get('/about',(req, res)=>{
+//     res.send('Welcome to about page!');
+// })
+
+// app.get('/api/products',(req, res)=>{
+//     res.send('Welcome to Product Page!');
+// })
+
+// app.get('/api/items',(req, res)=>{
+//     res.send('Welcome to items page!');
+// })
+
+
+// app.listen(5000, (req,res) => {
+//     //res.status(200).json({success:true});
+//     console.log('listening on port 5000...')
+// })
+
+//The  usability of middleware as which by using the method of use in express to get the created middleware access.
+
+const express = require('express');
+const app = express();
+//calling/importing the middleware
+const logger = require('./logger')
+//const authorize = require('./exampAuthorize');
+const exampAuthorize = require('./exampAuthorize');
+app.use(logger, exampAuthorize);
+//app.use('/api',logger)
+
+app.get('/',(req, res)=> {
+    res.send('Welcome to Home Page!');
 })
 
+app.get('/about',(req, res)=>{
+    res.send('Welcome to about page!');
+})
+
+app.get('/api/products',(req, res)=>{
+    res.send('Welcome to Product Page!');
+})
+
+app.get('/api/items',(req, res)=>{
+    //console.log(req.user);
+    res.send('Welcome to items page!');
+})
+
+
 app.listen(5000,()=> {
-    console.log('listening on port 5000...');
+    console.log('listening on port 5000...')
 })
