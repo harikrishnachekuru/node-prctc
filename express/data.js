@@ -37,6 +37,16 @@ const persons = [
     {id: 1, name: 'Haary', age: 12},
     {id: 2, name: 'Porter', age: 13},
     {id: 3, name: 'peter', age : 14},
+    {id: 3, name: 'Henkey', age : 15},
+    {id: 3, name: 'Arthur', age : 16},
 ]
 
-module.exports = {products , persons}
+const people = [
+    {id: 1, name: 'Alexandor', age: 122},
+    {id: 2, name: 'miney', age: 13},
+    {id: 3, name: 'Herculus', age : 14},
+    {id: 4, name: 'Bonzad', age : 15},
+    {id: 5, name: 'Borgina', age : 16},
+]
+
+module.exports = {products , persons , people}

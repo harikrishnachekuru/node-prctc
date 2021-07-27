@@ -2,13 +2,22 @@
 
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+
 //calling/importing the middleware
-const logger = require('./logger');
+
+//const logger = require('./logger')
+//const authorize = require('./exampAuthorize');
+//const exampAuthorize = require('./exampAuthorize');
+//app.use(logger, exampAuthorize);
 
 //app.use(logger)
 //If we specify the path with the use method then -> the middleware will only reflects for the respective path of access.
 //in the below used api as path along with middleware -> The middleware can be applied to the specific to the path which starts with api.
-app.use('/api',logger)
+
+//app.use('/api',logger)
+//This is the Thirdparty middleware
+app.use(morgan('tiny'))
 
 app.get('/',(req, res)=> {
     res.send('Welcome to Home Page!');
@@ -23,6 +32,7 @@ app.get('/api/products',(req, res)=>{
 })
 
 app.get('/api/items',(req, res)=>{
+    //console.log(req.user);
     res.send('Welcome to items page!');
 })
 

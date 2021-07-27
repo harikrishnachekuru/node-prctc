@@ -187,31 +187,89 @@
 
 //The  usability of middleware as which by using the method of use in express to get the created middleware access.
 
-const express = require('express');
-const app = express();
-//calling/importing the middleware
-const logger = require('./logger')
-//const authorize = require('./exampAuthorize');
-const exampAuthorize = require('./exampAuthorize');
-app.use(logger, exampAuthorize);
-//app.use('/api',logger)
+// const express = require('express');
+// const app = express();
+// const morgan = require('morgan');
+// //calling/importing the middleware
+// //const logger = require('./logger')
+// //const authorize = require('./exampAuthorize');
+// //const exampAuthorize = require('./exampAuthorize');
+// //app.use(logger, exampAuthorize);
+// //app.use('/api',logger)
+// //This is the Thirdparty middleware
+// app.use(morgan('tiny'))
+// app.get('/',(req, res)=> {
+//     res.send('Welcome to Home Page!');
+// })
 
-app.get('/',(req, res)=> {
-    res.send('Welcome to Home Page!');
-})
+// app.get('/about',(req, res)=>{
+//     res.send('Welcome to about page!');
+// })
 
-app.get('/about',(req, res)=>{
-    res.send('Welcome to about page!');
-})
+// app.get('/api/products',(req, res)=>{
+//     res.send('Welcome to Product Page!');
+// })
 
-app.get('/api/products',(req, res)=>{
-    res.send('Welcome to Product Page!');
-})
+// app.get('/api/items',(req, res)=>{
+//     //console.log(req.user);
+//     res.send('Welcome to items page!');
+// })
 
-app.get('/api/items',(req, res)=>{
-    //console.log(req.user);
-    res.send('Welcome to items page!');
-})
+
+// app.listen(5000,()=> {
+//     console.log('listening on port 5000...')
+// })
+
+// const express = require('express');
+// const app = express();
+
+// let {people} = require('./data');
+// //static assets
+// app.use(express.static('./method-public'));
+
+// // Parse form data
+// app.use(express.urlencoded({ extended: false }))
+
+// app.get('/api/people',(req, res)=>{
+//     res.status(200).json({success:true,data:people});
+// })
+
+// app.post('/api/people',(req, res)=>{
+
+//     const { name } = req.body;
+//     if(!name) {
+//        return res.status(400).json({success:false,msg:"Please provide valid details..!"})
+//     }
+//     res.status(201).json({success:true,person:name});
+// })
+
+// app.post('/login',(req, res)=>{
+//     //console.log(req.body);
+//     //Example way to validate the user login is successful/empty data
+//     const {name} = req.body;
+//     if(name) {
+//         return res.status(200).send(`Welcome back ${name} ..!`);
+//     }
+
+//     res.status(401).send("PLease provide valid credentials")
+// })
+
+const express = require('express')
+const app = express()
+
+const people = require('./routes/peoples-route')
+
+const auth = require('./routes/auth')
+
+// static assets
+app.use(express.static('./method-public'))
+// parse form data
+app.use(express.urlencoded({ extended: false }))
+// parse json
+app.use(express.json())
+
+
+app.use('/api/people',[people,auth])
 
 
 app.listen(5000,()=> {
