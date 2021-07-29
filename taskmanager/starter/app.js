@@ -4,13 +4,19 @@ const app = express();
 
 const tasks = require('./routes/tasks');
 
-app.use(express.json())
 const connectDB =require('./db/connect');
 require('dotenv').config();
+//const notFound = require('./middleware/notFound')
+const errorHandlerMiddleware = require('./middleware/errorHandler');
+//middleware
+app.use(express.json())
+app.use(express.static('./public'))
+//app.use(notFound)
+app.use(errorHandlerMiddleware);
 //routes
-app.get('/hello',(req,res)=>{
-    res.send(`Task Manager`)
-})
+// app.get('/hello',(req,res)=>{
+//     res.send(`Task Manager`)
+// })
 
 app.use('/api/v1/tasks', tasks);
 

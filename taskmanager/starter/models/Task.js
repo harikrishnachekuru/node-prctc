@@ -16,7 +16,7 @@ const TaskSchema = new mongoose.Schema({
     },
     completed: {
         type : Boolean,
-        default : false
+        default : false     // If we set it to default automatically it pics the value as false.If we comment and use put method instead of patch then we can get a chance of setting this overwrites and emits the other values.
     }
 })
 //model is the main thing that colects/converts data
